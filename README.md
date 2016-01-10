@@ -3,7 +3,7 @@ MagicSort
 
 # Introduction
 
-**MagicSort** is a Java library used for sorting any object array by using iterative quick sort and selection sort when the array size is small. Moreover, it provides some useful comparators for sorting strings, files or compound comparing algorithm. For example, it can sort files by file types, but when the file types are the same, sort them by their file names.
+**MagicSort** is a Java library used for sorting any object array by using iterative quick sort and selection sort when the array size is small. Moreover, it provides some useful built-in comparators for sorting strings and files. It can sort files by file types, but when the file types are the same, sort them by their file names.
 
 It will take a long time to sort large data. **MagicSort** supports asynchronous sorting. You can set you callback object and use a new thread to sort data. **MagicSort** can calculate the progress of its sorting task immediately.
 
@@ -36,7 +36,7 @@ You can use **sort** method to start your sort task. After the task finishes, yo
     ms.sort();
     System.out.println(Arrays.toString(ms.getData()));
 
-If you want to sort data asynchronously, you can use **setCallback** method to add an **MagicSortCallback** object implemtented by yourself. implemented. After the sort task finished, the **sortFinished** method in **MagicSortCallback** object that you set will be called.
+If you want to sort data asynchronously, you can use **setCallback** method to add an **MagicSortCallback** object implemented by yourself. implemented. After the sort task finished, the **sortFinished** method in **MagicSortCallback** object that you set will be called.
 
 When the sorting task is running, you can use **getProgress** method to get current progress.
 
@@ -48,10 +48,8 @@ If we need to sort files mentioned in the first paragraph, we can use **MagicSor
     final File[] files = directory.listFiles();
     MagicSort<File> ms = new MagicSort<>(files);
     ms.setComparator(OrderComparator.getInstance(FileTypeComparator.getInstance(), FileNameComparator.getInstance()));
-    ms.setCallback((data) -> {
-        for (final File file : data) {
-          System.out.println(file.getName());
-        }
+    ms.setCallback(data -> {
+        Arrays.stream(data).forEach(System.out::println);
     });
     new Thread(ms::sort).start();
     while (true) {
