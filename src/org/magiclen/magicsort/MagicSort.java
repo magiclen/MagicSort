@@ -415,7 +415,6 @@ public final class MagicSort<T> {
                 int r = rs;
                 int k = j;
                 while (ls < rs && r < e) {
-                    final int c = compare(temp[ls], temp[r]);
                     if (compare(temp[ls], temp[r]) >= 0) {
                         data[k++] = temp[r++];
                     } else {
